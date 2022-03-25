@@ -24,8 +24,8 @@ class UserFixtures extends Fixture
         $admin->setRoles(['ROLE_ADMIN']);
 
         $this->setReference('admin', $admin);
-        $manager->persist($admin);
 
+        $manager->persist($admin);
         $faker = Faker\Factory::create('en_US');
 
         for($user_i = 1; $user_i <= 5 ; $user_i++)

@@ -37,7 +37,6 @@ trait TimestampableTrait
         return $this;
     }
 
-
     #[ORM\PrePersist]
     #[ORM\PreUpdate]
     public function updatedTimestamps()

@@ -4,18 +4,19 @@ namespace App\DataFixtures;
 
 use App\Entity\Post;
 use App\Entity\User;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Faker;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 
-class PostFixtures extends Fixture
+class PostFixtures extends Fixture implements DependentFixtureInterface
 {
 
-//    public function __construct(
-//        private SluggerInterface $slugger
-//    ){}
+    public function __construct(
+        private SluggerInterface $slugger
+    ){}
 
     public function load(ObjectManager $manager): void
     {
@@ -26,10 +27,10 @@ class PostFixtures extends Fixture
         {
             $post = new Post();
 
-            $post->setTitle($faker->title());
-            $post->setSlug($post->getTitle());
+            $post->setTitle($faker->text(15));
+            $post->computeSlug($this->slugger, $post->getTitle());
             $post->setBody($faker->text());
-            $post->setPublishedAt(new \DateTimeImmutable('now'));
+//            $post->setPublishedAt(new \DateTimeImmutable('now'));
 
             // search user reference
             /** @var User $admin */
@@ -42,5 +43,12 @@ class PostFixtures extends Fixture
         }
 
         $manager->flush();
+    }
+
+    public function getDependencies(): array
+    {
+        return [
+            UserFixtures::class
+        ];
     }
 }
