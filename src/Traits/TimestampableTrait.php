@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Entity\Traits;
+namespace App\Traits;
 
 use Doctrine\ORM\Mapping as ORM;
 
-trait TimestampableEntity
+trait TimestampableTrait
 {
 
     #[ORM\Column(type: 'datetime_immutable')]
@@ -37,10 +37,9 @@ trait TimestampableEntity
         return $this;
     }
 
-    /**
-     * @ORM\PrePersist
-     * @ORM\PreUpdate
-     */
+
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
     public function updatedTimestamps()
     {
         if ($this->getCreatedAt() == null) {

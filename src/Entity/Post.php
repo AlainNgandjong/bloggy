@@ -2,7 +2,10 @@
 
 namespace App\Entity;
 
+
 use App\Repository\PostRepository;
+use App\Traits\SluggerTrait;
+use App\Traits\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
@@ -14,6 +17,9 @@ use Doctrine\ORM\Mapping as ORM;
 )]
 class Post
 {
+    use SluggerTrait;
+    use TimestampableTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
@@ -21,9 +27,6 @@ class Post
 
     #[ORM\Column(type: 'string', length: 255)]
     private $title;
-
-    #[ORM\Column(type: 'string', length: 255)]
-    private $slug;
 
     #[ORM\Column(type: 'text')]
     private $body;
@@ -48,18 +51,6 @@ class Post
     public function setTitle(string $title): self
     {
         $this->title = $title;
-
-        return $this;
-    }
-
-    public function getSlug(): ?string
-    {
-        return $this->slug;
-    }
-
-    public function setSlug(string $slug): self
-    {
-        $this->slug = $slug;
 
         return $this;
     }
@@ -98,5 +89,10 @@ class Post
         $this->author = $author;
 
         return $this;
+    }
+
+    public function __toString():string
+    {
+        return $this->getTitle();
     }
 }
