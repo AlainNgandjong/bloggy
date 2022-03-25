@@ -30,7 +30,6 @@ class PostFixtures extends Fixture implements DependentFixtureInterface
             $post->setTitle($faker->text(15));
             $post->computeSlug($this->slugger, $post->getTitle());
             $post->setBody($faker->text());
-//            $post->setPublishedAt(new \DateTimeImmutable('now'));
 
             // search user reference
             /** @var User $admin */
@@ -38,7 +37,6 @@ class PostFixtures extends Fixture implements DependentFixtureInterface
 
             $post->setAuthor($admin);
 
-//            $this->setReference('post-'.$post_i, $post);
             $manager->persist($post);
         }
 
