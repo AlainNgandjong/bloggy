@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\EntityListeners;
+namespace App\Entity\EntityListeners;
 
 
 use App\Entity\Post;

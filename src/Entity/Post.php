@@ -4,8 +4,8 @@ namespace App\Entity;
 
 
 use App\Repository\PostRepository;
-use App\Traits\SluggerTrait;
-use App\Traits\TimestampableTrait;
+use App\Entity\Traits\SluggerTrait;
+use App\Entity\Traits\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
