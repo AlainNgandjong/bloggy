@@ -15,13 +15,15 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DashboardController extends AbstractDashboardController
 {
+
+    public function __construct(private AdminUrlGenerator $adminUrlGenerator){}
+
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
         // Option 1. You can make your dashboard redirect to some common page of your backend
         //
-        $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
-        return $this->redirect($adminUrlGenerator->setController(PostCrudController::class)->generateUrl());
+        return $this->redirect($this->adminUrlGenerator->setController(PostCrudController::class)->generateUrl());
 
         // Option 2. You can make your dashboard redirect to different pages depending on the user
         //
@@ -44,7 +46,8 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
-        yield MenuItem::subMenu('Pots', 'fas fa-newspaper')->setSubItems([
+        yield MenuItem::section('Blog');
+        yield MenuItem::subMenu('Posts', 'fas fa-newspaper')->setSubItems([
             menuItem::linkToCrud('Add', 'fas fa-plus', Post::class)->setAction(Crud::PAGE_NEW),
             menuItem::linkToCrud('All Posts', 'fas fa-list', Post::class),
         ]);
