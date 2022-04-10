@@ -19,6 +19,7 @@ class DashboardController extends AbstractDashboardController
     public function __construct(private AdminUrlGenerator $adminUrlGenerator){}
 
     #[Route('/admin', name: 'admin')]
+    #[IsGranted('ROLE_ADMIN')]
     public function index(): Response
     {
         // Option 1. You can make your dashboard redirect to some common page of your backend
