@@ -33,10 +33,10 @@ class PostCrudController extends AbstractCrudController
                 $pageName !== Crud::PAGE_NEW
             );
         yield TextEditorField::new('body');
-        yield AssociationField::new('author');
         yield DateTimeField::new('publishedAt');
-        yield DateTimeField::new('createdAt')->hideOnForm();
-        yield DateTimeField::new('updatedAt')->hideOnForm();
+        yield AssociationField::new('author');
+//        yield DateTimeField::new('createdAt')->hideOnForm();
+//        yield DateTimeField::new('updatedAt')->hideOnForm();
     }
 
 
