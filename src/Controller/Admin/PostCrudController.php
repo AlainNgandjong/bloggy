@@ -9,6 +9,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
@@ -32,7 +33,7 @@ class PostCrudController extends AbstractCrudController
                 'disabled',
                 $pageName !== Crud::PAGE_NEW
             );
-        yield TextEditorField::new('body');
+        yield TextareaField::new('body')->hideOnIndex();
         yield DateTimeField::new('publishedAt');
         yield AssociationField::new('author');
 //        yield DateTimeField::new('createdAt')->hideOnForm();
