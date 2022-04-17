@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Post;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
@@ -20,6 +21,13 @@ class PostCrudController extends AbstractCrudController
         return Post::class;
     }
 
+    public function configureFilters(Filters $filters): Filters
+    {
+        return $filters->add('createdAt')
+                        ->add('publishedAt')
+                        ->add('author')
+            ;
+    }
 
     public function configureFields(string $pageName): iterable
     {
@@ -28,7 +36,6 @@ class PostCrudController extends AbstractCrudController
         yield TextField::new('title');
         yield SlugField::new('slug')
             ->setTargetFieldname('title')
-            ->hideOnIndex()
             ->setFormTypeOption(
                 'disabled',
                 $pageName !== Crud::PAGE_NEW
@@ -36,9 +43,5 @@ class PostCrudController extends AbstractCrudController
         yield TextareaField::new('body')->hideOnIndex();
         yield DateTimeField::new('publishedAt');
         yield AssociationField::new('author');
-//        yield DateTimeField::new('createdAt')->hideOnForm();
-//        yield DateTimeField::new('updatedAt')->hideOnForm();
     }
-
-
 }
