@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home page -  {{ parent() }}{% endblock %}
+
+{% block body %}
+
+    <div class="main">
+        <div class="example-wrapper">
+            <h1>Show page</h1>
+
+                <article>
+                    <h1>{{ post.title }}</h1>
+                    <span>Published at {{ post.publishedAt|date }} by {{ post.author }}</span>
+                    <p>{{ post.body }}</p>
+                </article>
+
+
+        </div>
+    </div>
+
+{% endblock %}

@@ -10,8 +10,10 @@
 
             {% for post in posts %}
                 <article>
-                    <h1>{{ post.title }}</h1>
-                    <p>{{ post.body|raw }}</p>
+{#                    add link to show page#}
+                    <h1><a href="{{ path('app_posts_show', {slug: post.slug}) }}">{{ post.title }}</a></h1>
+{#                    truncate body#}
+                    <p>{{ post.body|u.truncate(150, '...', false) }}</p>
                 </article>
 
             {% endfor %}
