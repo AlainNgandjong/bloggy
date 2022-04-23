@@ -39,6 +39,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $posts;
 
 
+
     public function __construct()
     {
         $this->posts = new ArrayCollection();
@@ -161,6 +162,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->getEmail();
     }
+
 
 
 }
