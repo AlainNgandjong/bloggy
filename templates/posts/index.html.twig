@@ -12,6 +12,7 @@
                 <article>
 {#                    add link to show page#}
                     <h1><a href="{{ path('app_posts_show', {slug: post.slug}) }}">{{ post.title }}</a></h1>
+                    <span>Published <time datetime="{{ post.publishedAt|date('d-m-Y H:m:s') }}"></time> {{ post.publishedAt|date }} by {{ post.author }}</span>
 {#                    truncate body#}
                     <p>{{ post.body|u.truncate(150, '...', false) }}</p>
                 </article>
