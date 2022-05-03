@@ -15,7 +15,8 @@ class PostsController extends AbstractController
     {
         // TODO filters to select only published posts
         // Order by publishedAt DESC
-        $posts = $postRepository->findAll();
+        $posts = $postRepository->findAllPublished();
+
 
         return $this->render('posts/index.html.twig', compact('posts'));
     }
