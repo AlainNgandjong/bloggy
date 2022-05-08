@@ -26,10 +26,13 @@ class PostsController extends AbstractController
     #[Route('/posts/{year}/{month}/{day}/{slug}', name: 'app_posts_show')]
     public function show(int $year, int $month, int $day, string $slug): Response
     {
+
         $post = $this->postRepository->findOneByPublishDateAndSlug($year, $month, $day, $slug);
 
-        dd($post);
-
+        if(!$post){
+            throw $this->createNotFoundException("Post not found.");
+        }
+        
         return $this->render('posts/show.html.twig', compact('post'));
     }
 }
