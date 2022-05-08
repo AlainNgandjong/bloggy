@@ -32,7 +32,7 @@ class PostsController extends AbstractController
         if(!$post){
             throw $this->createNotFoundException("Post not found.");
         }
-        
+
         return $this->render('posts/show.html.twig', compact('post'));
     }
 }

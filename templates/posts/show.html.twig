@@ -6,15 +6,13 @@
 
     <div class="main">
         <div class="example-wrapper">
-            <h1>Show page</h1>
+            <article>
+                <h1>{{ post.title }}</h1>
+                <span>Published <time datetime="{{ post.publishedAt|date('d-m-Y H:m:s') }}"></time> {{ post.publishedAt|date }} by {{ post.author }}</span>
+                <p>{{ post.body|nl2br }}</p>
+            </article>
 
-                <article>
-                    <h1>{{ post.title }}</h1>
-                    <span>Published <time datetime="{{ post.publishedAt|date('d-m-Y H:m:s') }}"></time> {{ post.publishedAt|date }} by {{ post.author }}</span>
-                    <p>{{ post.body|nl2br }}</p>
-                </article>
-
-
+            <a href="{{ path('app_home') }}">Go back to homepage</a>
         </div>
     </div>
 

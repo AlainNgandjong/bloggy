@@ -95,4 +95,14 @@ class Post
     {
         return $this->getTitle();
     }
+
+    public function getPathParams(): array
+    {
+        return [
+            'year'  =>  $this->getPublishedAt()->format('Y'),
+            'month' =>  $this->getPublishedAt()->format('m'),
+            'day'  =>  $this->getPublishedAt()->format('d'),
+            'slug' =>  $this->getSlug()
+        ];
+    }
 }

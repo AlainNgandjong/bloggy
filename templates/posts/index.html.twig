@@ -10,11 +10,16 @@
 
             {% for post in posts %}
                 <article>
-{#                    add link to show page#}
-{#                    <h1><a href="{{ path('app_posts_show', {slug: post.slug}) }}">{{ post.title }}</a></h1>#}
-                    <span>Published <time datetime="{{ post.publishedAt|date('d-m-Y H:m:s') }}"></time> {{ post.publishedAt|date }} by {{ post.author }}</span>
-{#                    truncate body#}
-                    <p>{{ post.body|u.truncate(150, '...', false) }}</p>
+                    <h2>
+                        <a href="{{ path('app_posts_show', post.pathParams()) }}">
+                            {{ post.title }}
+                        </a>
+                    </h2>
+                    <p>
+                        Published <time datetime="{{ post.publishedAt|date('Y-m-d H:i') }}"> {{  post.publishedAt|date }}</time>  by {{ post.author }}
+                    </p>
+
+                    <p>{{ post.body|u.truncate(100, '...', false) }}</p>
                 </article>
 
             {% endfor %}
