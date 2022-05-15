@@ -6,9 +6,9 @@
 
     <div class="main">
         <div class="example-wrapper">
-            <h1>Welcome to Bloggy Platform! ✅</h1>
+            <h1>My Blog ({{ pagination.getTotalItemCount }}) Posts</h1>
 
-            {% for post in posts %}
+            {% for post in pagination %}
                 <article>
                     <h2>
                         <a href="{{ path('app_posts_show', post.pathParams()) }}">
@@ -23,6 +23,10 @@
                 </article>
 
             {% endfor %}
+
+            <div class="navigation">
+                {{ knp_pagination_render(pagination) }}
+            </div>
 
         </div>
     </div>

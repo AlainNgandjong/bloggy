@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Post;
 use App\Repository\PostRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -13,14 +15,18 @@ class PostsController extends AbstractController
     public function __construct(Private PostRepository $postRepository){}
 
     #[Route('/', name: 'app_home', methods: ['GET'])]
-    public function index(PostRepository $postRepository): Response
+    public function index(PostRepository $postRepository, PaginatorInterface $paginator, Request $request): Response
     {
         // TODO filters to select only published posts
         // Order by publishedAt DESC
-        $posts = $postRepository->findAllPublishedOrdered();
+        $query =  $postRepository->findAllPublishedOrderedQuery();
+        $pagination = $paginator->paginate(
+            $query,
+            $request->query->getInt('page', 1),
+            1
+        );
 
-
-        return $this->render('posts/index.html.twig', compact('posts'));
+        return $this->render('posts/index.html.twig', compact('pagination'));
     }
 
     #[Route(
