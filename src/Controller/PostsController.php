@@ -18,13 +18,17 @@ class PostsController extends AbstractController
     public function index(PostRepository $postRepository, PaginatorInterface $paginator, Request $request): Response
     {
         // TODO filters to select only published posts
+
         // Order by publishedAt DESC
         $query =  $postRepository->findAllPublishedOrderedQuery();
-        $pagination = $paginator->paginate(
-            $query,
-            $request->query->getInt('page', 1),
-            1
-        );
+
+        $page =  $request->query->getInt('page', 1);
+
+        if($page === 0){
+            throw $this->createNotFoundException("Page not found");
+        }
+
+        $pagination = $paginator->paginate($query, $page, Post::NUM_ITEMS_PER_PAGE);
 
         return $this->render('posts/index.html.twig', compact('pagination'));
     }
