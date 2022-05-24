@@ -14,7 +14,7 @@ class PostsController extends AbstractController
 {
     public function __construct(Private PostRepository $postRepository){}
 
-    #[Route('/', name: 'app_home', methods: ['GET'])]
+    #[Route('%app.admin.path%', name: 'app_home', methods: ['GET'])]
     public function index(PostRepository $postRepository, PaginatorInterface $paginator, Request $request): Response
     {
         // TODO filters to select only published posts
