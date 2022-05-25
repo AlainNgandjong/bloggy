@@ -49,7 +49,7 @@ class EasyAdminSubscriber implements EventSubscriberInterface
      */
     public function setPassword(User $user): void
     {
-        $pass = $user->getPassword();
+        $pass = $user->getPlainPassword();
 
         $user->setPassword(
             $this->hasher->hashPassword(

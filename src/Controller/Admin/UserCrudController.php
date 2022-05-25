@@ -26,7 +26,7 @@ class UserCrudController extends AbstractCrudController
         yield Field::new('id')->onlyOnIndex();
         yield TextField::new('name');
         yield EmailField::new('email');
-        yield Field::new('password')
+        yield Field::new('plainPassword', 'password')
             ->setFormType(PasswordType::class)
             ->onlyOnForms()
             ->setRequired($pageName === Crud::PAGE_NEW);
