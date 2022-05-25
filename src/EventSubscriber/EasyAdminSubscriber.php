@@ -31,7 +31,9 @@ class EasyAdminSubscriber implements EventSubscriberInterface
         if (!($entity instanceof User)) {
             return;
         }
-        $this->setPassword($entity);
+        if($entity->getPlainPassword()){
+            $this->setPassword($entity);
+        }
     }
 
     public function addUser(BeforeEntityPersistedEvent $event)
@@ -41,7 +43,10 @@ class EasyAdminSubscriber implements EventSubscriberInterface
         if (!($entity instanceof User)) {
             return;
         }
-        $this->setPassword($entity);
+        if($entity->getPlainPassword()){
+            $this->setPassword($entity);
+        }
+
     }
 
     /**
