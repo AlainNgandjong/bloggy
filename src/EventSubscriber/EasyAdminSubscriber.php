@@ -16,7 +16,8 @@ class EasyAdminSubscriber implements EventSubscriberInterface
 
     public function __construct(private EntityManagerInterface $entityManager, private UserPasswordHasherInterface $hasher){}
 
-    public static function getSubscribedEvents()
+
+    public static function getSubscribedEvents(): array
     {
         return [
             BeforeEntityPersistedEvent::class => ['addUser'],
