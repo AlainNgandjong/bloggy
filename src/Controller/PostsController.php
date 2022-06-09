@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Post;
+use App\Form\SharePostFormType;
 use App\Repository\PostRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -69,7 +70,7 @@ class PostsController extends AbstractController
     )]
     public function share(string $date, string $slug): Response
     {
-        dd("toto");
+
 
         $post = $this->postRepository->findOneByPublishDateAndSlug($date, $slug);
 
@@ -77,6 +78,8 @@ class PostsController extends AbstractController
             throw $this->createNotFoundException("Post not found.");
         }
 
-        
+        $form = $this->createForm(SharePostFormType::class);
+
+        return $this->renderForm('posts/share.html.twig', compact('form'));
     }
 }
