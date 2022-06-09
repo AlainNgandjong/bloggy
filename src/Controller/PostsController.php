@@ -80,6 +80,6 @@ class PostsController extends AbstractController
 
         $form = $this->createForm(SharePostFormType::class);
 
-        return $this->renderForm('posts/share.html.twig', compact('form'));
+        return $this->renderForm('posts/share.html.twig', compact('form', 'post'));
     }
 }

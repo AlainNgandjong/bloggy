@@ -1,14 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Share{% endblock %}
+{% block title %}Share a post{% endblock %}
 
 {% block body %}
     <div class="container pt-3">
         <div class="main">
-            <div class="example-wrapper">
-                <h1 class="h3">Share</h1>
+            <div class="rom">
+                <div class="col-md-6">
+                    <h1 class="h3 mb-4">Share "{{ post.title }}" via email</h1>
+                    {{ form_start(form) }}
+                    {{ form_widget(form) }}
+                    <button class="btn btn-primary w-100" type="submit">Share post</button>
+                    {{ form_end(form) }}
+                </div>
 
-                {{ form(form) }}
             </div>
         </div>
     </div>
