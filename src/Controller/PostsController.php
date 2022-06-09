@@ -57,4 +57,26 @@ class PostsController extends AbstractController
 
         return $this->render('posts/show.html.twig', compact('post'));
     }
+
+    #[Route(
+        '/posts/{date}/{slug}/share',
+        name: 'app_posts_share',
+        requirements: [
+        'date' => Requirement::DATE_YMD,
+        'slug' => Requirement::ASCII_SLUG,
+        ],
+        methods: ['GET', 'POST']
+    )]
+    public function share(string $date, string $slug): Response
+    {
+        dd("toto");
+
+        $post = $this->postRepository->findOneByPublishDateAndSlug($date, $slug);
+
+        if(!$post){
+            throw $this->createNotFoundException("Post not found.");
+        }
+
+        
+    }
 }
