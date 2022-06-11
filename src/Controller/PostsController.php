@@ -68,7 +68,7 @@ class PostsController extends AbstractController
         ],
         methods: ['GET', 'POST']
     )]
-    public function share(string $date, string $slug): Response
+    public function share(request $request, string $date, string $slug): Response
     {
 
 
@@ -79,6 +79,12 @@ class PostsController extends AbstractController
         }
 
         $form = $this->createForm(SharePostFormType::class);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            
+        }
 
         return $this->renderForm('posts/share.html.twig', compact('form', 'post'));
     }
