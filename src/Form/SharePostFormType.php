@@ -8,6 +8,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class SharePostFormType extends AbstractType
 {
@@ -15,16 +18,30 @@ class SharePostFormType extends AbstractType
     {
         $builder
             ->add('sender_name', TextType::class, [
-                'label' => 'Name'
+                'label' => 'Name',
+                'constraints' => [
+                    new NotBlank(),
+                    new Length(["min" => 2]),
+                ]
             ])
             ->add('sender_email', EmailType::class, [
-                'label' => 'Email'
+                'label' => 'Email',
+                'constraints' => [
+                    new NotBlank(),
+                    new Email(),
+                ]
+
             ])
             ->add('receiver_email', EmailType::class, [
-                'label' => "Your fried's email"
+                'label' => "Your fried's email",
+                'constraints' => [
+                    new NotBlank(),
+                    new Email(),
+                ]
             ])
             ->add('sender_comments', TextareaType::class, [
-                'label' => 'Comments'
+                'label' => 'Comments',
+                'help' => "Can be blank (Optional)"
             ])
         ;
     }

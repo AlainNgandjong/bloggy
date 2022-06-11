@@ -83,7 +83,7 @@ class PostsController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            
+
         }
 
         return $this->renderForm('posts/share.html.twig', compact('form', 'post'));
