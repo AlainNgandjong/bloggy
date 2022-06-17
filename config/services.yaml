@@ -9,6 +9,8 @@ parameters:
 when@dev:
     parameters:
         app.admin.path: '/admin'
+        app.contact_email: 'hello@bloggy.wip'
+        app.name: Bloggy
 
 
 services:
