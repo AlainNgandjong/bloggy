@@ -114,6 +114,11 @@ class PostsController extends AbstractController
 
             $mailer->send($email);
 
+            $this->addFlash(
+                'success',
+                '🚀 Post successfully shared with your friend!'
+            );
+
             return $this->redirectToRoute('app_home');
         }
 
