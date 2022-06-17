@@ -9,7 +9,12 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Email;
+use Symfony\Component\Mime\Message;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\Requirement\Requirement;
 
 
@@ -68,9 +73,8 @@ class PostsController extends AbstractController
         ],
         methods: ['GET', 'POST']
     )]
-    public function share(request $request, string $date, string $slug): Response
+    public function share(request $request, MailerInterface $mailer, string $date, string $slug): Response
     {
-
 
         $post = $this->postRepository->findOneByPublishDateAndSlug($date, $slug);
 
@@ -83,7 +87,34 @@ class PostsController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
+            $data = $form->getData();
 
+            $postUrl = $this->generateUrl(
+                'app_posts_show',
+                $post->getPathParams(),
+                UrlGeneratorInterface::ABSOLUTE_URL
+            );
+            $subject = sprintf("%s recommands you to read '%s'", $data['sender_name'], $post->getTitle());
+
+            $message = sprintf(
+                "Read \"%s\" at %s.\n\n%s's comments: %s",
+                $post->getTitle(),
+                $postUrl,
+                $data['sender_name'],
+                $data['sender_comments']
+
+            );
+
+            $email = (new Email())
+                ->from(new Address('hello@bloggy.wip', 'Bloggy'))
+                ->to($data['receiver_email'])
+                ->subject($subject)
+                ->text($message)
+                ;
+
+            $mailer->send($email);
+
+            return $this->redirectToRoute('app_home');
         }
 
         return $this->renderForm('posts/share.html.twig', compact('form', 'post'));
