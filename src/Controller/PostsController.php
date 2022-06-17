@@ -6,12 +6,12 @@ use App\Entity\Post;
 use App\Form\SharePostFormType;
 use App\Repository\PostRepository;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
-use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Message;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -96,20 +96,16 @@ class PostsController extends AbstractController
             );
             $subject = sprintf("%s recommands you to read '%s'", $data['sender_name'], $post->getTitle());
 
-            $message = sprintf(
-                "Read \"%s\" at %s.\n\n%s's comments: %s",
-                $post->getTitle(),
-                $postUrl,
-                $data['sender_name'],
-                $data['sender_comments']
-
-            );
-
-            $email = (new Email())
+            $email = (new TemplatedEmail())
                 ->from(new Address('hello@bloggy.wip', 'Bloggy'))
                 ->to($data['receiver_email'])
                 ->subject($subject)
-                ->text($message)
+                ->htmlTemplate('emails/posts/share.html.twig')
+                ->context([
+                    'sender_name' => $data['sender_name'],
+                    'sender_comments' => $data['sender_comments'],
+                    'post' => $post,
+                ])
                 ;
 
             $mailer->send($email);
