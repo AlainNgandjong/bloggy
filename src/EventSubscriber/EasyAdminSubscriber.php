@@ -14,7 +14,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class EasyAdminSubscriber implements EventSubscriberInterface
 {
 
-    public function __construct(private EntityManagerInterface $entityManager, private UserPasswordHasherInterface $hasher){}
+    public function __construct(private readonly EntityManagerInterface $entityManager, private readonly UserPasswordHasherInterface $hasher){}
 
 
     public static function getSubscribedEvents(): array

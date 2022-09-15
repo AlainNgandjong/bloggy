@@ -29,7 +29,12 @@ class PostFixtures extends Fixture implements DependentFixtureInterface
 
             $post->setTitle($faker->text(15));
             $post->computeSlug($this->slugger, $post->getTitle());
-            $post->setBody($faker->text());
+            $post->setPublishedAt(
+                $faker->boolean(75)
+                    ? \DateTimeImmutable::createFromMutable($faker->dateTimeBetween('-50 days', '-10 days'))
+                    : null
+            );
+            $post->setBody($faker->paragraph(10));
 
             // search user reference
             /** @var User $admin */
