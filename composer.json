@@ -91,6 +91,13 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
+        ],
+        "load-fixtures": [
+            "symfony console doctrine:database:drop --force",
+            "symfony console doctrine:database:create",
+            "symfony console make:migration --no-interaction",
+            "symfony console doctrine:migrations:migrate --no-interaction",
+            "symfony console doctrine:fixtures:load --no-interaction"
         ]
     },
     "conflict": {
