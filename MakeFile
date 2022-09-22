@@ -1,0 +1,17 @@
+install: composer.json
+    composer install
+lint:
+    symfony console lint:twig templates
+test:
+    ./bin/phpunit
+format:
+    ./vendor/bin/pint
+fixtures:
+    symfony console doctrine:database:drop --force
+    symfony console doctrine:database:create
+    symfony console make:migration --no-interaction
+    symfony console doctrine:migrations:migrate --no-interaction
+    symfony console doctrine:fixtures:load --no-interaction
+all: install lint test format
+
+.PHONY:  install lint test format
