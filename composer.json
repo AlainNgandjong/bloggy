@@ -113,6 +113,7 @@
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.4",
         "fakerphp/faker": "^1.19",
+        "laravel/pint": "^1.2",
         "symfony/debug-bundle": "6.1.0",
         "symfony/maker-bundle": "^1.4",
         "symfony/stopwatch": "6.1.0",
