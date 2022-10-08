@@ -7,14 +7,11 @@ use App\Repository\PostRepository;
 use App\Entity\Traits\SluggerTrait;
 use App\Entity\Traits\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation\Slug;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
 #[ORM\Table(name: '`posts`')]
 #[ORM\HasLifecycleCallbacks]
-#[ORM\UniqueConstraint(
-    name: 'unique_slug_for_publish_date',
-    columns: ['published_at', 'slug']
-)]
 class Post
 {
     use SluggerTrait;
@@ -29,6 +26,9 @@ class Post
 
     #[ORM\Column(type: 'string', length: 255)]
     private $title;
+
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
+    private $slug;
 
     #[ORM\Column(type: 'text')]
     private $body;
@@ -98,11 +98,11 @@ class Post
         return $this->getTitle();
     }
 
-    public function getPathParams(): array
-    {
-        return [
-            'date'  =>  $this->getPublishedAt()->format('Y-m-d'),
-            'slug' =>  $this->getSlug()
-        ];
-    }
+//    public function getPathParams(): array
+//    {
+//        return [
+//            'date'  =>  $this->getPublishedAt()->format('Y-m-d'),
+//            'slug' =>  $this->getSlug()
+//        ];
+//    }
 }
