@@ -107,7 +107,7 @@ class Post
 
     public function __toString():string
     {
-        return $this->getTitle();
+        return sprintf('#%d %s', $this->getId(),$this->getTitle());
     }
 
 //    public function getPathParams(): array
