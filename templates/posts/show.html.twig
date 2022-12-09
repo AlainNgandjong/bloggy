@@ -15,14 +15,14 @@
                 <a href="{{ path('app_posts_share', {slug: post.slug}) }}">Share this post</a>
                 <hr>
                 <section>
-                    <h2>{{ post.comments|length }} comments</h2>
 
+                    <h2>{{ pluralize(post.comments|length, 'comment') }}</h2>
                     {% for comment in post.comments %}
-                        <article>
-                            <h4>
-                                Comment by <a href="mailto:{{ comment.email }}">{{ comment.name }}</a>
-                                {{ comment.createdAt|date}}
-                            </h4>
+                        <article class="{{ loop.index is odd ? 'bg-light'}} px-2 py-2 rounded my-2">
+                            <span class="my-2 text-muted">
+                                Comment #{{ loop.index}} by <a class="text-decoration-none" href="mailto:{{ comment.email }}">{{ comment.name }}</a>
+                                | {{ comment.createdAt|date}}
+                            </span>
                             <p>
                                 {{ comment.content|nl2br }}
                             </p>
