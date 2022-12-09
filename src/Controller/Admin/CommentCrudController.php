@@ -3,6 +3,8 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Comment;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
@@ -19,6 +21,26 @@ class CommentCrudController extends AbstractCrudController
         return Comment::class;
     }
 
+
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->setSearchFields(['name','email','content'])
+            ->setDefaultSort([
+                'createdAt' => 'DESC'
+            ])
+            ->setAutofocusSearch()
+            ;
+    }
+
+    public function configureFilters(Filters $filters): Filters
+    {
+        return $filters
+            ->add('isActive')
+            ->add('post')
+            ->add('createdAt')
+            ;
+    }
 
     public function configureFields(string $pageName): iterable
     {
