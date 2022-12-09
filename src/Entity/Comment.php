@@ -5,6 +5,9 @@ namespace App\Entity;
 use App\Entity\Traits\TimestampableTrait;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 #[ORM\Entity(repositoryClass: CommentRepository::class)]
 #[ORM\Table(name: '`comments`')]
@@ -19,16 +22,22 @@ class Comment
     private ?int $id = null;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[NotBlank]
+    #[Length(['min' => 3])]
     private ?string $name = null;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[NotBlank]
+    #[Email]
     private ?string $email = null;
 
     #[ORM\Column(type: 'text')]
+    #[NotBlank]
+    #[Length(['min' => 2])]
     private ?string $content = null;
 
     #[ORM\Column(type: 'boolean')]
-    private bool $isActive = false;
+    private bool $isActive = true;
 
     #[ORM\ManyToOne(targetEntity: Post::class, inversedBy: 'comments')]
     #[ORM\JoinColumn(nullable: false)]

@@ -33,6 +33,19 @@
                         </p>
                     {% endfor %}
                 </section>
+
+              <section>
+                  <div class="row">
+                      <div class="col-md-4">
+                          {{ form_start(commentForm) }}
+                          {{ form_widget(commentForm) }}
+
+                          <button type="submit" class="btn btn-sm btn-primary" formnovalidate>Add Comment</button>
+                          {{ form_end(commentForm) }}
+                      </div>
+                  </div>
+
+              </section>
             </div>
         </div>
     </div>
