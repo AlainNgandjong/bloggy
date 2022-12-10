@@ -16,8 +16,8 @@
                 <hr>
                 <section>
 
-                    <h2>{{ pluralize(post.comments|length, 'comment') }}</h2>
-                    {% for comment in post.comments %}
+                    <h2>{{ pluralize(comments|length, 'comment') }}</h2>
+                    {% for comment in comments %}
                         <article class="{{ loop.index is odd ? 'bg-light'}} px-2 py-2 rounded my-2">
                             <span class="my-2 text-muted">
                                 Comment #{{ loop.index}} by <a class="text-decoration-none" href="mailto:{{ comment.email }}">{{ comment.name }}</a>
@@ -36,7 +36,7 @@
 
               <section>
                   <div class="row">
-                      <div class="col-md-4">
+                      <div class="col-md-4 ">
                           {{ form_start(commentForm) }}
                           {{ form_widget(commentForm) }}
 

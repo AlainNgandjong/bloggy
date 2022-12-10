@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Entity\Traits\TimestampableTrait;
 use App\Repository\CommentRepository;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Length;

@@ -3,11 +3,13 @@
 namespace App\Entity;
 
 
+use App\Repository\CommentRepository;
 use App\Repository\PostRepository;
 use App\Entity\Traits\SluggerTrait;
 use App\Entity\Traits\TimestampableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation\Slug;
 
@@ -110,43 +112,47 @@ class Post
         return sprintf('#%d %s', $this->getId(),$this->getTitle());
     }
 
-//    public function getPathParams(): array
-//    {
-//        return [
-//            'date'  =>  $this->getPublishedAt()->format('Y-m-d'),
-//            'slug' =>  $this->getSlug()
-//        ];
-//    }
+    //    public function getPathParams(): array
+    //    {
+    //        return [
+    //            'date'  =>  $this->getPublishedAt()->format('Y-m-d'),
+    //            'slug' =>  $this->getSlug()
+    //        ];
+    //    }
 
-/**
- * @return Collection<int, Comment>
- */
-public function getComments(): Collection
-{
-    return $this->comments;
-}
-
-public function addComment(Comment $comment): self
-{
-    if (!$this->comments->contains($comment)) {
-        $this->comments[] = $comment;
-        $comment->setPost($this);
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
     }
 
-    return $this;
-}
-
-public function removeComment(Comment $comment): self
-{
-    if ($this->comments->removeElement($comment)) {
-        // set the owning side to null (unless already changed)
-        if ($comment->getPost() === $this) {
-            $comment->setPost(null);
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setPost($this);
         }
+
+        return $this;
     }
 
-    return $this;
-}
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getPost() === $this) {
+                $comment->setPost(null);
+            }
+        }
 
+        return $this;
+    }
+
+    public function getActiveComments() : Collection
+    {
+        return $this->getComments()->matching(CommentRepository::createIsActiveCriteria());
+    }
 
 }

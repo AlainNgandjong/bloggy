@@ -7,6 +7,8 @@ use App\Form\CommentFormType;
 use App\Form\SharePostFormType;
 use App\Repository\CommentRepository;
 use App\Repository\PostRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
@@ -57,6 +59,10 @@ class PostsController extends AbstractController
     )]
     public function show(Post $post, Request $request, CommentRepository $commentRepository): Response
     {
+
+
+        $comments = $post->getActiveComments();
+        
         $commentForm = $this->createForm(CommentFormType::class);
 
         $commentForm->handleRequest($request);
@@ -78,7 +84,7 @@ class PostsController extends AbstractController
 
 
         }
-        return $this->renderForm('posts/show.html.twig', compact('post', 'commentForm'));
+        return $this->renderForm('posts/show.html.twig', compact('post', 'comments','commentForm'));
     }
 
     #[Route(
