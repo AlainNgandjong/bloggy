@@ -55,6 +55,8 @@ class PostCrudController extends AbstractCrudController
             );
         yield TextareaField::new('body')->hideOnIndex();
         yield DateTimeField::new('publishedAt');
+        yield AssociationField::new('tags');
         yield AssociationField::new('author')->autocomplete();
+
     }
 }

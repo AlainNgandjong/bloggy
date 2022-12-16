@@ -111,11 +111,6 @@ class Post
         return $this;
     }
 
-    public function __toString():string
-    {
-        return sprintf('#%d %s', $this->getId(),$this->getTitle());
-    }
-
     //    public function getPathParams(): array
     //    {
     //        return [
@@ -181,6 +176,11 @@ class Post
         $this->tags->removeElement($tag);
 
         return $this;
+    }
+
+    public function __toString():string
+    {
+        return sprintf('#%d %s', $this->getId(),$this->getTitle());
     }
 
 }

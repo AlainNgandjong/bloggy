@@ -68,11 +68,6 @@ class Tag
         return $this;
     }
 
-    public function __toString(): string
-    {
-        return $this->getName();
-    }
-
     /**
      * @return Collection<int, Post>
      */
@@ -98,5 +93,10 @@ class Tag
         }
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->getName();
     }
 }
