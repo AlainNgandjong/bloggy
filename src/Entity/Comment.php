@@ -24,7 +24,7 @@ class Comment
 
     #[ORM\Column(type: 'string', length: 255)]
     #[NotBlank]
-    #[Length(['min' => 3])]
+    #[Length(min: 3)]
     private ?string $name = null;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -34,7 +34,7 @@ class Comment
 
     #[ORM\Column(type: 'text')]
     #[NotBlank]
-    #[Length(['min' => 2])]
+    #[Length(min: 2)]
     private ?string $content = null;
 
     #[ORM\Column(type: 'boolean')]
