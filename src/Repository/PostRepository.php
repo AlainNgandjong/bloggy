@@ -58,13 +58,15 @@ class PostRepository extends ServiceEntityRepository
 //        return $this->matching($criteria);
     }
 
-    public function findAllPublishedOrderedQuery(?Tag $tag): Query
+    public function findAllPublishedOrderedByNewestQuery(?Tag $tag): Query
     {
         $qb =  $this->createQueryBuilder('p')
             ->leftJoin('p.tags','tags')
             ->addSelect('tags')
             ->andWhere('p.publishedAt IS NOT NULL')
+            ->andWhere('p.publishedAt <= :now')
             ->orderBy('p.publishedAt','DESC')
+            ->setParameter('now', new \DateTimeImmutable())
         ;
 
         if($tag) {

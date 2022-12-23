@@ -47,7 +47,7 @@ class PostsController extends AbstractController
         }
 
         // Order by publishedAt DESC
-        $query =  $postRepository->findAllPublishedOrderedQuery($tag);
+        $query =  $postRepository->findAllPublishedOrderedByNewestQuery($tag);
 
         $page =  $request->query->getInt('page', 1);
 
