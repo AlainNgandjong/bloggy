@@ -3,10 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Post;
+use App\Entity\Tag;
 use App\Form\CommentFormType;
 use App\Form\SharePostFormType;
 use App\Repository\CommentRepository;
 use App\Repository\PostRepository;
+use App\Repository\TagRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,15 +28,26 @@ use Symfony\Component\Routing\Requirement\Requirement;
 
 class PostsController extends AbstractController
 {
-    public function __construct(private readonly PostRepository $postRepository){}
 
     #[Route('/', name: 'app_home', methods: ['GET'])]
-    public function index(PostRepository $postRepository, PaginatorInterface $paginator, Request $request): Response
+    #[Route(
+        '/tags/{slug}',
+        name: 'app_posts_by_tag',
+        requirements: [
+            'slug' => Requirement::ASCII_SLUG,
+        ],
+        methods: ['GET']
+    )]
+    public function index(PostRepository $postRepository, PaginatorInterface $paginator, Request $request, TagRepository $tagRepository, ?string $slug): Response
     {
-        // TODO filters to select only published posts
+
+        $tag = null;
+        if($slug) {
+            $tag = $tagRepository->findOneBySlug($slug);
+        }
 
         // Order by publishedAt DESC
-        $query =  $postRepository->findAllPublishedOrderedQuery();
+        $query =  $postRepository->findAllPublishedOrderedQuery($tag);
 
         $page =  $request->query->getInt('page', 1);
 
@@ -44,7 +57,7 @@ class PostsController extends AbstractController
 
         $pagination = $paginator->paginate($query, $page, Post::NUM_ITEMS_PER_PAGE);
 
-        return $this->render('posts/index.html.twig', compact('pagination'));
+        return $this->render('posts/index.html.twig', compact('pagination', 'tag'));
     }
 
 
@@ -84,55 +97,7 @@ class PostsController extends AbstractController
 
 
         }
-        return $this->renderForm('posts/show.html.twig', compact('post', 'comments','commentForm'));
+        return $this->render('posts/show.html.twig', compact('post', 'comments','commentForm'));
     }
 
-    #[Route(
-        '/posts/{slug}/share',
-        name: 'app_posts_share',
-        requirements: [
-        'slug' => Requirement::ASCII_SLUG,
-        ],
-        methods: ['GET', 'POST']
-    )]
-    public function share(request $request, MailerInterface $mailer, Post $post): Response
-    {
-
-        $form = $this->createForm(SharePostFormType::class);
-
-        $form->handleRequest($request);
-
-        if($form->isSubmitted() && $form->isValid()){
-            $data = $form->getData();
-            $subject = sprintf("%s recommands you to read '%s'", $data['sender_name'], $post->getTitle());
-
-            $email = (new TemplatedEmail())
-                ->from(
-                    new Address(
-                        $this->getParameter('app.contact_email'),
-                        $this->getParameter('app.name')
-                    )
-                )
-                ->to($data['receiver_email'])
-                ->subject($subject)
-                ->htmlTemplate('emails/posts/share.html.twig')
-                ->context([
-                    'sender_name' => $data['sender_name'],
-                    'sender_comments' => $data['sender_comments'],
-                    'post' => $post,
-                ])
-                ;
-
-            $mailer->send($email);
-
-            $this->addFlash(
-                'success',
-                '🚀 Post successfully shared with your friend!'
-            );
-
-            return $this->redirectToRoute('app_home');
-        }
-
-        return $this->renderForm('posts/share.html.twig', compact('form', 'post'));
-    }
 }

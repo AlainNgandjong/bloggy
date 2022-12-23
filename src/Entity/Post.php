@@ -21,7 +21,7 @@ class Post
     use SluggerTrait;
     use TimestampableTrait;
 
-    public const NUM_ITEMS_PER_PAGE = 2;
+    public const NUM_ITEMS_PER_PAGE = 5;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]

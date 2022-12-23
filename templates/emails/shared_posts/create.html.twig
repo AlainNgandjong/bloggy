@@ -2,8 +2,8 @@
 <h1>{{ sender_name }} Recommends you to read "{{ post.title }}"</h1>
 <p>
     Read "{{ post.title }}" at
-    <a href="{{ url('app_posts_show', post.pathParams) }}">
-        {{ url('app_posts_show', post.pathParams) }}
+    <a href="{{ url('app_posts_show', {slug: post.slug}) }}">
+        {{ url('app_posts_show', , {slug: post.slug}) }}
     </a>
 </p>
 

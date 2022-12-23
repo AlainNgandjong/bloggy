@@ -19,7 +19,7 @@ class TagFixtures extends Fixture implements DependentFixtureInterface
         for($tag_i = 1; $tag_i <  $faker->numberBetween(1,3) ; $tag_i++) {
             $tag = new Tag();
 
-            $tag->setName($faker->word());
+            $tag->setName($faker->unique()->word());
 
             /** @var Post $post */
             $post = $this->getReference('post_'.$faker->numberBetween(1,3));
