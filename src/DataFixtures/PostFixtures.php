@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Post;
+use App\Entity\Tag;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -29,7 +30,7 @@ class PostFixtures extends Fixture implements DependentFixtureInterface
             $post->computeSlug($this->slugger, $post->getTitle());
             $post->setPublishedAt(
                 $faker->boolean(75)
-                    ? \DateTimeImmutable::createFromMutable($faker->dateTimeBetween('-50 days', '-10 days'))
+                    ? \DateTimeImmutable::createFromMutable($faker->dateTimeBetween('-50 days', '10 days'))
                     : null
             );
             $post->setBody($faker->paragraph(10));
@@ -38,6 +39,15 @@ class PostFixtures extends Fixture implements DependentFixtureInterface
             /** @var User $admin */
             $admin = $this->getReference('admin');
             $post->setAuthor($admin);
+
+            $tagNumber = $faker->numberBetween(1, 3);
+            for ($tag_i = 1; $tag_i <= $tagNumber; ++$tag_i)
+            {
+                /** @var Tag $tag */
+                $tag = $this->getReference('tag_'.$tag_i);
+                $post->addTag($tag);
+            }
+
 
             $this->setReference('post_'.$post_i, $post);
             $manager->persist($post);
@@ -50,6 +60,7 @@ class PostFixtures extends Fixture implements DependentFixtureInterface
     {
         return [
             UserFixtures::class,
+            TagFixtures::class
         ];
     }
 }

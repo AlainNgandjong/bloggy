@@ -9,31 +9,28 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker;
 
-class TagFixtures extends Fixture implements DependentFixtureInterface
+class TagFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
         $faker = Faker\Factory::create('en_US');
 
-        for ($tag_i = 1; $tag_i < $faker->numberBetween(1, 3); ++$tag_i) {
+        for ($tag_i = 1; $tag_i < 4; ++$tag_i) {
             $tag = new Tag();
 
             $tag->setName($faker->unique()->word());
 
-            /** @var Post $post */
-            $post = $this->getReference('post_'.$faker->numberBetween(1, 3));
+//            /** @var Post $post */
+//            $post = $this->getReference('post_'.$faker->numberBetween(1, 3));
+//
+//            $tag->addPost($post);
 
-            $tag->addPost($post);
+            $this->setReference('tag_'.$tag_i, $tag);
             $manager->persist($tag);
         }
 
         $manager->flush();
     }
 
-    public function getDependencies(): array
-    {
-        return [
-            PostFixtures::class,
-        ];
-    }
+
 }
