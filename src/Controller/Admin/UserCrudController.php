@@ -19,7 +19,6 @@ class UserCrudController extends AbstractCrudController
         return User::class;
     }
 
-
     public function configureFields(string $pageName): iterable
     {
         yield Field::new('id')->onlyOnIndex();
@@ -28,7 +27,7 @@ class UserCrudController extends AbstractCrudController
         yield Field::new('plainPassword', 'password')
             ->setFormType(PasswordType::class)
             ->onlyOnForms()
-            ->setRequired($pageName === Crud::PAGE_NEW);
+            ->setRequired(Crud::PAGE_NEW === $pageName);
 //        yield BooleanField::new('enabled')
 //            ->renderAsSwitch(false);
         $roles = ['ROLE_SUPER_ADMIN', 'ROLE_ADMIN', 'ROLE_MODERATOR', 'ROLE_USER'];
@@ -40,5 +39,4 @@ class UserCrudController extends AbstractCrudController
         yield DateTimeField::new('createdAt')->hideOnForm();
         yield DateTimeField::new('updatedAt')->hideOnForm();
     }
-
 }

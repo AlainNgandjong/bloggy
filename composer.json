@@ -93,11 +93,15 @@
         "post-update-cmd": [
             "@auto-scripts"
         ],
-        "load-fixtures": [
+        "format": "pint",
+        "reset-db": [
             "symfony console doctrine:database:drop --force",
             "symfony console doctrine:database:create",
-            "symfony console make:migration --no-interaction",
             "symfony console doctrine:migrations:migrate --no-interaction",
+            "symfony console doctrine:fixtures:load --no-interaction"
+        ],
+        "load-fixtures": [
+            "@reset-db",
             "symfony console doctrine:fixtures:load --no-interaction"
         ]
     },

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\EventSubscriber;
-
 
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
@@ -13,9 +11,9 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class EasyAdminSubscriber implements EventSubscriberInterface
 {
-
-    public function __construct(private readonly EntityManagerInterface $entityManager, private readonly UserPasswordHasherInterface $hasher){}
-
+    public function __construct(private readonly EntityManagerInterface $entityManager, private readonly UserPasswordHasherInterface $hasher)
+    {
+    }
 
     public static function getSubscribedEvents(): array
     {
@@ -32,7 +30,7 @@ class EasyAdminSubscriber implements EventSubscriberInterface
         if (!($entity instanceof User)) {
             return;
         }
-        if($entity->getPlainPassword()){
+        if ($entity->getPlainPassword()) {
             $this->setPassword($entity);
         }
     }
@@ -44,15 +42,11 @@ class EasyAdminSubscriber implements EventSubscriberInterface
         if (!($entity instanceof User)) {
             return;
         }
-        if($entity->getPlainPassword()){
+        if ($entity->getPlainPassword()) {
             $this->setPassword($entity);
         }
-
     }
 
-    /**
-     * @param User $user
-     */
     public function setPassword(User $user): void
     {
         $pass = $user->getPlainPassword();

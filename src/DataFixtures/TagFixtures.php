@@ -15,14 +15,13 @@ class TagFixtures extends Fixture implements DependentFixtureInterface
     {
         $faker = Faker\Factory::create('en_US');
 
-
-        for($tag_i = 1; $tag_i <  $faker->numberBetween(1,3) ; $tag_i++) {
+        for ($tag_i = 1; $tag_i < $faker->numberBetween(1, 3); ++$tag_i) {
             $tag = new Tag();
 
             $tag->setName($faker->unique()->word());
 
             /** @var Post $post */
-            $post = $this->getReference('post_'.$faker->numberBetween(1,3));
+            $post = $this->getReference('post_'.$faker->numberBetween(1, 3));
 
             $tag->addPost($post);
             $manager->persist($tag);
@@ -34,7 +33,7 @@ class TagFixtures extends Fixture implements DependentFixtureInterface
     public function getDependencies(): array
     {
         return [
-            PostFixtures::class
+            PostFixtures::class,
         ];
     }
 }

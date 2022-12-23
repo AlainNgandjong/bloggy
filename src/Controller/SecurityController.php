@@ -12,10 +12,10 @@ class SecurityController extends AbstractController
     #[Route(path: '/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-         if ($this->getUser()) {
-             // TODO add flash message
-             return $this->redirectToRoute('app_home');
-         }
+        if ($this->getUser()) {
+            // TODO add flash message
+            return $this->redirectToRoute('app_home');
+        }
 
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -28,7 +28,7 @@ class SecurityController extends AbstractController
             'csrf_token_intention' => 'authenticate',
             'username_parameter' => 'email',
             'password_parameter' => 'password',
-            'page_title' =>'Bloggy login',
+            'page_title' => 'Bloggy login',
             'username_label' => 'Email',
             'sign_in_label' => 'Log in',
             ]);

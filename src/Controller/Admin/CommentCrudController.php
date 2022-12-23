@@ -11,7 +11,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class CommentCrudController extends AbstractCrudController
@@ -21,16 +20,15 @@ class CommentCrudController extends AbstractCrudController
         return Comment::class;
     }
 
-
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setSearchFields(['name','email','content'])
+            ->setSearchFields(['name', 'email', 'content'])
             ->setDefaultSort([
-                'createdAt' => 'DESC'
+                'createdAt' => 'DESC',
             ])
             ->setAutofocusSearch()
-            ;
+        ;
     }
 
     public function configureFilters(Filters $filters): Filters
@@ -39,7 +37,7 @@ class CommentCrudController extends AbstractCrudController
             ->add('isActive')
             ->add('post')
             ->add('createdAt')
-            ;
+        ;
     }
 
     public function configureFields(string $pageName): iterable
@@ -52,11 +50,6 @@ class CommentCrudController extends AbstractCrudController
             DateTimeField::new('createdAt')->onlyOnIndex(),
             AssociationField::new('post', 'Post'),
             BooleanField::new('isActive'),
-
-
-
-
         ];
     }
-
 }

@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use App\Entity\Traits\SluggerTrait;
 use App\Entity\Traits\TimestampableTrait;
 use App\Repository\TagRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -10,13 +9,11 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation\Slug;
 
-
 #[ORM\Entity(repositoryClass: TagRepository::class)]
 #[ORM\Table(name: '`tags`')]
 #[ORM\HasLifecycleCallbacks]
 class Tag
 {
-
     use TimestampableTrait;
 
     #[ORM\Id]

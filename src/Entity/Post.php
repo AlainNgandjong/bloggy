@@ -2,14 +2,12 @@
 
 namespace App\Entity;
 
-
-use App\Repository\CommentRepository;
-use App\Repository\PostRepository;
 use App\Entity\Traits\SluggerTrait;
 use App\Entity\Traits\TimestampableTrait;
+use App\Repository\CommentRepository;
+use App\Repository\PostRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation\Slug;
 
@@ -55,8 +53,6 @@ class Post
         $this->comments = new ArrayCollection();
         $this->tags = new ArrayCollection();
     }
-
-
 
     public function getId(): ?int
     {
@@ -149,7 +145,7 @@ class Post
         return $this;
     }
 
-    public function getActiveComments() : Collection
+    public function getActiveComments(): Collection
     {
         return $this->getComments()->matching(CommentRepository::createIsActiveCriteria());
     }
@@ -178,9 +174,8 @@ class Post
         return $this;
     }
 
-    public function __toString():string
+    public function __toString(): string
     {
-        return sprintf('#%d %s', $this->getId(),$this->getTitle());
+        return sprintf('#%d %s', $this->getId(), $this->getTitle());
     }
-
 }

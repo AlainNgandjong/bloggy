@@ -18,7 +18,7 @@ class CommentFormType extends AbstractType
             ->add('name', TextType::class)
             ->add('email', EmailType::class)
             ->add('content', TextareaType::class, [
-                'attr' => ['rows' => 5]
+                'attr' => ['rows' => 5],
             ])
         ;
     }

@@ -15,8 +15,7 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
     {
         $faker = Faker\Factory::create('en_US');
 
-
-        for($comment_i = 1; $comment_i<= $faker->numberBetween(1,20) ; $comment_i++) {
+        for ($comment_i = 1; $comment_i <= $faker->numberBetween(1, 20); ++$comment_i) {
             $comment = new Comment();
 
             $comment->setName($faker->name());
@@ -25,7 +24,7 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
             $comment->setIsActive($faker->boolean(90));
 
             /** @var Post $post */
-            $post = $this->getReference('post_'.$faker->numberBetween(1,3));
+            $post = $this->getReference('post_'.$faker->numberBetween(1, 3));
 
             $comment->setPost($post);
             $manager->persist($comment);
@@ -34,10 +33,10 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
         $manager->flush();
     }
 
-    public function getDependencies():array
+    public function getDependencies(): array
     {
         return [
-            PostFixtures::class
+            PostFixtures::class,
         ];
     }
 }

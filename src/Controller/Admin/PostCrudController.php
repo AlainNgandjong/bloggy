@@ -11,7 +11,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class PostCrudController extends AbstractCrudController
@@ -27,10 +26,10 @@ class PostCrudController extends AbstractCrudController
             ->setSearchFields(['title'])
             ->setDefaultSort([
                 'publishedAt' => 'DESC',
-                'title' => 'ASC'
+                'title' => 'ASC',
             ])
             ->setAutofocusSearch()
-            ;
+        ;
     }
 
     public function configureFilters(Filters $filters): Filters
@@ -51,12 +50,11 @@ class PostCrudController extends AbstractCrudController
             ->setTargetFieldname('title')
             ->setFormTypeOption(
                 'disabled',
-                $pageName !== Crud::PAGE_NEW
+                Crud::PAGE_NEW !== $pageName
             );
         yield TextareaField::new('body')->hideOnIndex();
         yield DateTimeField::new('publishedAt');
         yield AssociationField::new('tags');
         yield AssociationField::new('author')->autocomplete();
-
     }
 }

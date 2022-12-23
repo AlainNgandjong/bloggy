@@ -40,7 +40,7 @@ class CommentRepository extends ServiceEntityRepository
         }
     }
 
-    public static function createIsActiveCriteria() : Criteria
+    public static function createIsActiveCriteria(): Criteria
     {
         return $criteria = Criteria::create()
             ->andWhere(Criteria::expr()->eq('isActive', true))

@@ -17,8 +17,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DashboardController extends AbstractDashboardController
 {
-
-    public function __construct(private AdminUrlGenerator $adminUrlGenerator){}
+    public function __construct(private AdminUrlGenerator $adminUrlGenerator)
+    {
+    }
 
     #[Route('/admin', name: 'admin')]
     #[IsGranted('ROLE_ADMIN')]
@@ -48,22 +49,19 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linkToUrl('Visit home page', null, "/" );
+        yield MenuItem::linkToUrl('Visit home page', null, '/');
 
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
 
         yield MenuItem::section('Blog');
-        yield  menuItem::linkToCrud('Posts', 'fas fa-list', Post::class);
-        yield  menuItem::linkToCrud('Comments', 'fas fa-comments', Comment::class);
-        yield  menuItem::linkToCrud('Tags', 'fas fa-tag', Tag::class);
+        yield menuItem::linkToCrud('Posts', 'fas fa-list', Post::class);
+        yield menuItem::linkToCrud('Comments', 'fas fa-comments', Comment::class);
+        yield menuItem::linkToCrud('Tags', 'fas fa-tag', Tag::class);
 
         yield MenuItem::section('User');
         yield MenuItem::subMenu('Users', 'fas fa-users')->setSubItems([
             menuItem::linkToCrud('Add', 'fas fa-plus', User::class)->setAction(Crud::PAGE_NEW),
             menuItem::linkToCrud('All Users', 'fas fa-list', User::class),
         ]);
-
     }
-
-
 }

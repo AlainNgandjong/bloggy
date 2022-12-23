@@ -2,7 +2,6 @@
 
 namespace App\Twig\Extension;
 
-use App\Twig\Runtime\AppExtensionRuntime;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
@@ -28,9 +27,10 @@ class AppExtension extends AbstractExtension
 
     public function pluralize(int $quantity, string $singular, ?string $plural = null): string
     {
-        $plural ??= $singular . 's';
+        $plural ??= $singular.'s';
 
-        $singularOrplural = $quantity === 1 ? $singular : $plural;
-        return sprintf('%d %s', $quantity, $singularOrplural) ;
+        $singularOrplural = 1 === $quantity ? $singular : $plural;
+
+        return sprintf('%d %s', $quantity, $singularOrplural);
     }
 }

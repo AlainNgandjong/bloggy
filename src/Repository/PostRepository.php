@@ -5,7 +5,6 @@ namespace App\Repository;
 use App\Entity\Post;
 use App\Entity\Tag;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
@@ -23,7 +22,6 @@ class PostRepository extends ServiceEntityRepository
         parent::__construct($registry, Post::class);
     }
 
-
     public function add(Post $entity, bool $flush = true): void
     {
         $this->_em->persist($entity);
@@ -31,7 +29,6 @@ class PostRepository extends ServiceEntityRepository
             $this->_em->flush();
         }
     }
-
 
     public function remove(Post $entity, bool $flush = true): void
     {
@@ -45,10 +42,10 @@ class PostRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('p')
             ->andWhere('p.publishedAt IS NOT NULL')
-            ->orderBy('p.publishedAt','DESC')
+            ->orderBy('p.publishedAt', 'DESC')
             ->getQuery()
             ->getResult()
-            ;
+        ;
 
 //        $criteria = Criteria::create()
 //            ->andWhere(Criteria::expr()->neq('publishedAt', null))
@@ -60,27 +57,23 @@ class PostRepository extends ServiceEntityRepository
 
     public function findAllPublishedOrderedByNewestQuery(?Tag $tag): Query
     {
-        $qb =  $this->createQueryBuilder('p')
-            ->leftJoin('p.tags','tags')
+        $qb = $this->createQueryBuilder('p')
+            ->leftJoin('p.tags', 'tags')
             ->addSelect('tags')
             ->andWhere('p.publishedAt IS NOT NULL')
             ->andWhere('p.publishedAt <= :now')
-            ->orderBy('p.publishedAt','DESC')
+            ->orderBy('p.publishedAt', 'DESC')
             ->setParameter('now', new \DateTimeImmutable())
         ;
 
-        if($tag) {
+        if ($tag) {
             $qb->andWhere(':tag MEMBER OF p.tags')
                 ->setParameter('tag', $tag)
             ;
         }
 
         return $qb->getQuery();
-
     }
-
-
-
 
     public function findOneByPublishDateAndSlug(string $date, string $slug): ?Post
     {
@@ -90,11 +83,11 @@ class PostRepository extends ServiceEntityRepository
             ->andWhere('p.slug = :slug')
             ->setParameters([
                 'date' => $date,
-                'slug' => $slug
+                'slug' => $slug,
             ])
             ->getQuery()
             ->getOneOrNullResult()
-            ;
+        ;
     }
 
     // /**

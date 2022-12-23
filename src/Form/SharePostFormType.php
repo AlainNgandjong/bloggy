@@ -21,27 +21,26 @@ class SharePostFormType extends AbstractType
                 'label' => 'Name',
                 'constraints' => [
                     new NotBlank(),
-                    new Length(["min" => 2]),
-                ]
+                    new Length(['min' => 2]),
+                ],
             ])
             ->add('sender_email', EmailType::class, [
                 'label' => 'Email',
                 'constraints' => [
                     new NotBlank(),
                     new Email(),
-                ]
-
+                ],
             ])
             ->add('receiver_email', EmailType::class, [
                 'label' => "Your fried's email",
                 'constraints' => [
                     new NotBlank(),
                     new Email(),
-                ]
+                ],
             ])
             ->add('sender_comments', TextareaType::class, [
                 'label' => 'Comments',
-                'help' => "Can be blank (Optional)"
+                'help' => 'Can be blank (Optional)',
             ])
         ;
     }

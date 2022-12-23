@@ -13,7 +13,6 @@ use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
 
-
 class SharedPostsController extends AbstractController
 {
     #[Route(
@@ -26,12 +25,11 @@ class SharedPostsController extends AbstractController
     )]
     public function create(request $request, MailerInterface $mailer, Post $post): Response
     {
-
         $form = $this->createForm(SharePostFormType::class);
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             $subject = sprintf("%s recommands you to read '%s'", $data['sender_name'], $post->getTitle());
 
@@ -50,7 +48,7 @@ class SharedPostsController extends AbstractController
                     'sender_comments' => $data['sender_comments'],
                     'post' => $post,
                 ])
-                ;
+            ;
 
             $mailer->send($email);
 

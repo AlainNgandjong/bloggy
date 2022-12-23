@@ -7,7 +7,6 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 trait SluggerTrait
 {
-
     #[ORM\Column(type: 'string', length: 255)]
     private $slug;
 
