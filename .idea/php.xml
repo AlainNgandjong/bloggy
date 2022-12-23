@@ -115,7 +115,6 @@
       <path value="$PROJECT_DIR$/vendor/knplabs/knp-components" />
       <path value="C:/wamp64/bin/php/php8.1.6" />
       <path value="$PROJECT_DIR$/vendor/symfony/rate-limiter" />
-      <path value="$PROJECT_DIR$/vendor/symfony/lock" />
       <path value="$PROJECT_DIR$/vendor/laravel/pint" />
       <path value="$PROJECT_DIR$/vendor/stof/doctrine-extensions-bundle" />
       <path value="$PROJECT_DIR$/vendor/behat/transliterator" />
