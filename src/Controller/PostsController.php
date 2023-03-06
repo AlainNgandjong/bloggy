@@ -8,6 +8,8 @@ use App\Repository\CommentRepository;
 use App\Repository\PostRepository;
 use App\Repository\TagRepository;
 use Knp\Component\Pager\PaginatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -54,7 +56,11 @@ class PostsController extends AbstractController
         ],
         methods: ['GET', 'POST']
     )]
-    public function show(Post $post, Request $request, CommentRepository $commentRepository): Response
+    public function show(
+        #[MapEntity(expr: 'repository.findOnePublishedBySlug(slug)')] Post $post,
+        Request $request,
+        CommentRepository $commentRepository
+    ): Response
     {
         $comments = $post->getActiveComments();
 

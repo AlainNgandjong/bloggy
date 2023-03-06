@@ -18,6 +18,10 @@ doctrine:
         dql:
             datetime_functions:
                 date: DoctrineExtensions\Query\Mysql\Date
+        filters:
+            published_filter:
+                class: App\Doctrine\Filters\PublishedFilter
+                enabled: true
 
 
 when@test:

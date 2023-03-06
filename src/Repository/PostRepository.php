@@ -41,7 +41,6 @@ class PostRepository extends ServiceEntityRepository
     public function findAllPublishedOrdered(): array
     {
         return $this->createQueryBuilder('p')
-            ->andWhere('p.publishedAt IS NOT NULL')
             ->orderBy('p.publishedAt', 'DESC')
             ->getQuery()
             ->getResult()
@@ -60,7 +59,6 @@ class PostRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('p')
             ->leftJoin('p.tags', 'tags')
             ->addSelect('tags')
-            ->andWhere('p.publishedAt IS NOT NULL')
             ->andWhere('p.publishedAt <= :now')
             ->orderBy('p.publishedAt', 'DESC')
             ->setParameter('now', new \DateTimeImmutable())
@@ -78,7 +76,6 @@ class PostRepository extends ServiceEntityRepository
     public function findOneByPublishDateAndSlug(string $date, string $slug): ?Post
     {
         return $this->createQueryBuilder('p')
-            ->andWhere('p.publishedAt IS NOT NULL')
             ->andWhere('DATE(p.publishedAt) = :date')
             ->andWhere('p.slug = :slug')
             ->setParameters([
@@ -88,6 +85,18 @@ class PostRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult()
         ;
+    }
+
+    public function findOnePublishedBySlug(string $slug): ?Post
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.publishedAt <= :now')
+            ->andWhere('p.slug = :slug')
+            ->setParameter('slug' , $slug,)
+            ->setParameter('now' , new \DateTimeImmutable())
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
     }
 
     // /**
