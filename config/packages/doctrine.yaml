@@ -21,7 +21,7 @@ doctrine:
         filters:
             published_filter:
                 class: App\Doctrine\Filters\PublishedFilter
-                enabled: true
+#                enabled: true
 
 
 when@test:
