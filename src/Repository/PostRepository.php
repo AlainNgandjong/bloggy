@@ -103,18 +103,25 @@ class PostRepository extends ServiceEntityRepository
      * @return Post[] Returns an array of Post objects
      */
     
-    public function findSimilar(Post $post):array
+    public function findSimilar(Post $post, int $maxResults = 4):array
     {
         return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $post)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
+            ->leftJoin('p.tags', 't')
+            ->addSelect('COUNT(t.id) AS HIDDEN numberOfTags')
+            ->andWhere('t IN (:tags)')
+            ->andWhere('p != :post')
+            ->setParameters([
+                'tags' => $post->getTags(),
+                'post' => $post
+            ])
+            ->groupBy('p.id')
+            ->addOrderBy('numberOfTags', 'DESC')
+            ->addOrderBy('p.publishedAt', 'DESC')
+            ->setMaxResults($maxResults)
             ->getQuery()
             ->getResult()
         ;
     }
-   
 
     // /**
     //  * @return Post[] Returns an array of Post objects

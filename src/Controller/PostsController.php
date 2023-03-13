@@ -27,7 +27,7 @@ class PostsController extends AbstractController
         ],
         methods: ['GET']
     )]
-    public function index(PostRepository $postRepository, PaginatorInterface $paginator, Request $request, TagRepository $tagRepository, ?string $slug): Response
+    public function index(Request $request, ?string $slug, PostRepository $postRepository,  TagRepository $tagRepository,  PaginatorInterface $paginator,): Response
     {
         $tag = null;
         if ($slug) {
@@ -56,12 +56,16 @@ class PostsController extends AbstractController
         ],
         methods: ['GET', 'POST']
     )]
-    public function show(
+    public function show(Request $request,
         #[MapEntity(expr: 'repository.findOnePublishedBySlug(slug)')] Post $post,
-        Request $request,
+        PostRepository $postRepository,
         CommentRepository $commentRepository
     ): Response
     {
+
+        
+        $similarPosts = $postRepository->findSimilar($post);
+        
         $comments = $post->getActiveComments();
 
         $commentForm = $this->createForm(CommentFormType::class);
@@ -82,6 +86,6 @@ class PostsController extends AbstractController
             return $this->redirectToRoute('app_posts_show', ['slug' => $post->getSlug()]);
         }
 
-        return $this->render('posts/show.html.twig', compact('post', 'comments', 'commentForm'));
+        return $this->render('posts/show.html.twig', compact('post', 'comments', 'commentForm', 'similarPosts'));
     }
 }
