@@ -14,8 +14,11 @@ class DoctrineSubscriber implements EventSubscriberInterface
 
     public function onKernelRequest(RequestEvent $event): void
     {
-        $filter = $this->em->getFilters()->enable('published_filter');
-        $filter->setParameter('current_datetime', new \DateTimeImmutable);
+        if('app_admin' !== $event->getRequest()->attributes->get('_route')) {
+            $filter = $this->em->getFilters()->enable('published_filter');
+            $filter->setParameter('current_datetime', new \DateTimeImmutable);
+        }
+
 
     }
 

@@ -2,12 +2,16 @@
 
 namespace App\Twig\Extension;
 
+use App\Repository\PostRepository;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
 
 class AppExtension extends AbstractExtension
 {
+    public function __construct(private readonly PostRepository $postRepository)
+    {
+    }
     public function getFilters(): array
     {
         return [
@@ -22,6 +26,9 @@ class AppExtension extends AbstractExtension
     {
         return [
             new TwigFunction('pluralize', [$this, 'pluralize']),
+            new TwigFunction('total_posts', [$this, 'totalPosts']),
+            new TwigFunction('latest_posts', [$this, 'latestPosts']),
+            new TwigFunction('most_commented_posts', [$this, 'mostCommentedPosts']),
         ];
     }
 
@@ -32,5 +39,18 @@ class AppExtension extends AbstractExtension
         $singularOrplural = 1 === $quantity ? $singular : $plural;
 
         return sprintf('%d %s', $quantity, $singularOrplural);
+    }
+
+    public function totalPosts(): int
+    {
+        return $this->postRepository->count([]);
+    }
+    public function latestPosts(int $maxResults = 5): array
+    {
+        return $this->postRepository->findBy([], ['publishedAt'=> 'DESC'], $maxResults);
+    }
+    public function mostCommentedPosts(int $maxResults = 5): array
+    {
+        return $this->postRepository->findMostCommented($maxResults);
     }
 }

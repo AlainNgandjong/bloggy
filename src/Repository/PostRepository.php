@@ -123,6 +123,21 @@ class PostRepository extends ServiceEntityRepository
         ;
     }
 
+    public function findMostCommented(int $maxResults): array
+    {
+        return $this->createQueryBuilder('p')
+            ->join('p.comments', 'c')
+            ->addSelect('COUNT(c) AS HIDDEN numberOfComments')
+            ->andWhere('c.isActive = TRUE')
+            ->groupBy('p')
+            ->addOrderBy('numberOfComments', 'DESC')
+            ->addOrderBy('p.publishedAt', 'DESC')
+            ->setMaxResults($maxResults)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     // /**
     //  * @return Post[] Returns an array of Post objects
     //  */
@@ -151,4 +166,5 @@ class PostRepository extends ServiceEntityRepository
         ;
     }
     */
+
 }
