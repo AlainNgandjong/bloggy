@@ -19,6 +19,7 @@ class AppExtension extends AbstractExtension
             // parameter: ['is_safe' => ['html']]
             // Reference: https://twig.symfony.com/doc/3.x/advanced.html#automatic-escaping
             new TwigFilter('filter_name', [$this, 'doSomething']),
+            new TwigFilter('sha_sum256', [$this, 'shasum256']),
         ];
     }
 
@@ -29,6 +30,7 @@ class AppExtension extends AbstractExtension
             new TwigFunction('total_posts', [$this, 'totalPosts']),
             new TwigFunction('latest_posts', [$this, 'latestPosts']),
             new TwigFunction('most_commented_posts', [$this, 'mostCommentedPosts']),
+
         ];
     }
 
@@ -52,5 +54,10 @@ class AppExtension extends AbstractExtension
     public function mostCommentedPosts(int $maxResults = 5): array
     {
         return $this->postRepository->findMostCommented($maxResults);
+    }
+
+    public function shasum256($value): string
+    {
+        return hash('sha256', $value);
     }
 }

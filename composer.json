@@ -48,6 +48,7 @@
         "symfony/webapp-meta": "^1.0",
         "symfony/webpack-encore-bundle": "^1.14",
         "symfony/yaml": "6.2.*",
+        "twig/cache-extra": "^3.5",
         "twig/extra-bundle": "^3.4",
         "twig/string-extra": "^3.4",
         "twig/twig": "^2.12|^3.4"
