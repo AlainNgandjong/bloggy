@@ -27,9 +27,9 @@ class AppExtension extends AbstractExtension
     {
         return [
             new TwigFunction('pluralize', [$this, 'pluralize']),
-            new TwigFunction('total_posts', [$this, 'totalPosts']),
-            new TwigFunction('latest_posts', [$this, 'latestPosts']),
-            new TwigFunction('most_commented_posts', [$this, 'mostCommentedPosts']),
+            //new TwigFunction('total_posts', [$this, 'totalPosts']),
+            //new TwigFunction('latest_posts', [$this, 'latestPosts']),
+            //new TwigFunction('most_commented_posts', [$this, 'mostCommentedPosts']),
 
         ];
     }
@@ -43,21 +43,21 @@ class AppExtension extends AbstractExtension
         return sprintf('%d %s', $quantity, $singularOrplural);
     }
 
-    public function totalPosts(): int
+/*    public function totalPosts(): int
     {
         return $this->postRepository->count([]);
-    }
-    public function latestPosts(int $maxResults = 5): array
+    }*/
+    /*public function latestPosts(int $maxResults = 5): array
     {
         return $this->postRepository->findBy([], ['publishedAt'=> 'DESC'], $maxResults);
     }
     public function mostCommentedPosts(int $maxResults = 5): array
     {
         return $this->postRepository->findMostCommented($maxResults);
-    }
+    }*/
 
-    public function shasum256($value): string
+/*    public function shasum256($value): string
     {
         return hash('sha256', $value);
-    }
+    }*/
 }
