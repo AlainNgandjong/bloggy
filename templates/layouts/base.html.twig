@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -29,7 +29,10 @@
                 </main>
 
                 <aside class="col-md-4">
-                    {{ include('layouts/partials/_featured_content.html.twig') }}
+                   {{ render_esi(controller(
+                        'App\\Controller\\PostsController::featuredContent',
+                        {'maxResults' : 3}
+                    )) }}
                 </aside>
             </div>
 

@@ -8,11 +8,11 @@ use App\Repository\CommentRepository;
 use App\Repository\PostRepository;
 use App\Repository\TagRepository;
 use Knp\Component\Pager\PaginatorInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\EventListener\AbstractSessionListener;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
 
@@ -45,7 +45,16 @@ class PostsController extends AbstractController
 
         $pagination = $paginator->paginate($query, $page, Post::NUM_ITEMS_PER_PAGE);
 
-        return $this->render('posts/index.html.twig', compact('pagination', 'tag'));
+
+        $response =  $this->render('posts/index.html.twig',
+            compact('pagination', 'tag'))->setSharedMaxAge(30);
+
+        $response->headers->set(
+            AbstractSessionListener::NO_AUTO_CACHE_CONTROL_HEADER, 'true'
+        );
+
+        return $response;
+
     }
 
     #[Route(
@@ -87,5 +96,22 @@ class PostsController extends AbstractController
         }
 
         return $this->render('posts/show.html.twig', compact('post', 'comments', 'commentForm', 'similarPosts'));
+    }
+
+    #[Route(
+        '/posts/featured-content',
+        name: 'app_posts_featured_content',
+        methods: ['GET'],
+        priority: 10
+    )]
+    public  function featuredContent(PostRepository $postRepository, int $maxResults = 5) : Response {
+
+        $totalPosts = $postRepository->count([]);
+        $latestPosts = $postRepository->findBy([], ['publishedAt'=> 'DESC'], $maxResults);
+        $mostCommentedPosts = $postRepository->findMostCommented($maxResults);
+
+        return $this->render('posts/_featured_content.html.twig',
+            compact('totalPosts', 'latestPosts', 'mostCommentedPosts'
+            ))->setSharedMaxAge(50);
     }
 }
