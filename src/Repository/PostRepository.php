@@ -166,5 +166,14 @@ class PostRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function search(string $q): array
+    {
+        return  $this->createQueryBuilder('p')
+            ->andWhere('LOWER(p.title) LIKE :q OR LOWER(p.body) LIKE :q')
+            ->setParameter('q', '%'.mb_strtolower($q).'%')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
 }
